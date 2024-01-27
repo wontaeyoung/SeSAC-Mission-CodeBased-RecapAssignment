@@ -93,6 +93,8 @@
 		6E25C2162B5D049200FCC927 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C2152B5D049200FCC927 /* SettingViewModel.swift */; };
 		6E25C2182B5D049900FCC927 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C2172B5D049900FCC927 /* SettingViewController.swift */; };
 		6E25C21A2B5D108200FCC927 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C2192B5D108200FCC927 /* BaseTabBarController.swift */; };
+		6E2E97EF2B652A4D0026738B /* CodeBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2E97EE2B652A4D0026738B /* CodeBaseTableViewCell.swift */; };
+		6E2E97F12B652A550026738B /* CodeBaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2E97F02B652A550026738B /* CodeBaseCollectionViewCell.swift */; };
 		6E9F59A82B5FA77600A3869F /* UserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9F59A72B5FA77600A3869F /* UserNotificationManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -181,6 +183,8 @@
 		6E25C2152B5D049200FCC927 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		6E25C2172B5D049900FCC927 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		6E25C2192B5D108200FCC927 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
+		6E2E97EE2B652A4D0026738B /* CodeBaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseTableViewCell.swift; sourceTree = "<group>"; };
+		6E2E97F02B652A550026738B /* CodeBaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		6E9F59A72B5FA77600A3869F /* UserNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -246,6 +250,8 @@
 			isa = PBXGroup;
 			children = (
 				6E0A85222B64F053009F05F6 /* CodeBaseViewController.swift */,
+				6E2E97EE2B652A4D0026738B /* CodeBaseTableViewCell.swift */,
+				6E2E97F02B652A550026738B /* CodeBaseCollectionViewCell.swift */,
 			);
 			path = CodeBase;
 			sourceTree = "<group>";
@@ -749,6 +755,7 @@
 				6E25C1B32B59F5DB00FCC927 /* DesignSystemManager.swift in Sources */,
 				6E25C1832B592DB700FCC927 /* RADTO.swift in Sources */,
 				6E25C2112B5D00CD00FCC927 /* SearchCoordinator.swift in Sources */,
+				6E2E97F12B652A550026738B /* CodeBaseCollectionViewCell.swift in Sources */,
 				6E25C20F2B5D009800FCC927 /* SearchViewModel.swift in Sources */,
 				6E25C1A32B593CC000FCC927 /* NaverAPIParameter.swift in Sources */,
 				6E25C16B2B5905B600FCC927 /* UIImageView+.swift in Sources */,
@@ -759,6 +766,7 @@
 				6E25C1CE2B5A40D300FCC927 /* BaseCollectionViewController.swift in Sources */,
 				6E25C1F32B5BEE7A00FCC927 /* NicknameSettingViewModel.swift in Sources */,
 				6E25C1BF2B5A2C8200FCC927 /* User.swift in Sources */,
+				6E2E97EF2B652A4D0026738B /* CodeBaseTableViewCell.swift in Sources */,
 				6E25C2022B5CA9B000FCC927 /* Profile.swift in Sources */,
 				6E25C1F12B5BEE7200FCC927 /* NicknameSettingViewController.swift in Sources */,
 				6E25C1732B59258800FCC927 /* RAError.swift in Sources */,
