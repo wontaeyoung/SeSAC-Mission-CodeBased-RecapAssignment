@@ -74,6 +74,7 @@ final class SearchTableViewCell: CodeBaseTableViewCell {
   }
 }
 
+@available(iOS 17.0, *)
 #Preview {
   SearchTableViewCell()
 }
