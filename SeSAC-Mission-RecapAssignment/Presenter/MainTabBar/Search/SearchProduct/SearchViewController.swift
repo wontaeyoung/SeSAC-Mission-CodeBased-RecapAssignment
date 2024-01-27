@@ -92,8 +92,7 @@ final class SearchViewController: CodeBaseViewController, Navigatable {
     navigationItem.backButtonTitle = ""
     
     deleteAllButton.addTarget(self, action: #selector(deleteAllButtonTapped), for: .touchUpInside)
-//    hideViewBy(isKeywordEmpty: User.default.recentSearches.isEmpty)
-    hideViewBy(isKeywordEmpty: false)
+    hideViewBy(isKeywordEmpty: User.default.recentSearches.isEmpty)
   }
   
   override func setConstraint() {
@@ -201,8 +200,4 @@ extension SearchViewController: UISearchBarDelegate {
     bindRecentSearches()
     view.endEditing(true)
   }
-}
-
-#Preview {
-  SearchViewController(viewModel: SearchViewModel(coordinator: SearchCoordinator(UINavigationController())))
 }

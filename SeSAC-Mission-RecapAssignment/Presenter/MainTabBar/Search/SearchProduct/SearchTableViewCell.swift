@@ -6,25 +6,60 @@
 //
 
 import UIKit
+import SnapKit
 
-final class SearchTableViewCell: BaseTableViewCell {
+final class SearchTableViewCell: CodeBaseTableViewCell {
 
-  @IBOutlet weak var searchIconImageView: UIImageView!
-  @IBOutlet weak var searchKeywordLabel: UILabel!
-  @IBOutlet weak var deleteButton: UIButton!
   
+  // MARK: - UI
+  private let searchIconImageView = UIImageView().configured {
+    $0.image = RADesign.Image.search.image
+    $0.tintColor = .raText
+  }
+  
+  private let searchKeywordLabel = UILabel().configured {
+    $0.font = RADesign.Font.plain.font
+    $0.textColor = .raText
+  }
+  
+  private let deleteButton = UIButton().configured { button in
+    button.configuration = .plain().configured {
+      $0.image = RADesign.Image.delete.image
+      $0.baseForegroundColor = .gray
+    }
+  }
+  
+  
+  // MARK: - Property
   var deleteRowAction: (() -> Void)?
   
-  override func configure() {
-    searchIconImageView.tintColor = .raText
-    DesignSystemManager.configureSearchKeywordLabel(searchKeywordLabel)
-    deleteButton.tintColor = .gray
+  
+  // MARK: - Method
+  override func setHierarchy() {
+    contentView.addSubviews(searchIconImageView, searchKeywordLabel, deleteButton)
   }
   
   override func setAttribute() {
-    searchIconImageView.image = RADesign.Image.search.image
-    deleteButton.setImage(RADesign.Image.delete.image, for: .normal)
     deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+  }
+  
+  override func setConstraint() {
+    searchIconImageView.snp.makeConstraints {
+      $0.leading.equalToSuperview().offset(10)
+      $0.centerY.equalToSuperview()
+      $0.width.equalTo(searchIconImageView.snp.height)
+    }
+    
+    searchKeywordLabel.snp.makeConstraints {
+      $0.leading.equalTo(searchIconImageView.snp.trailing).offset(10)
+      $0.centerY.equalToSuperview()
+      $0.trailing.equalTo(deleteButton.snp.leading)
+    }
+    
+    deleteButton.snp.makeConstraints {
+      $0.trailing.equalToSuperview().offset(-10)
+      $0.centerY.equalToSuperview()
+    }
   }
   
   func setData(text: String, tag: Int, completion: @escaping () -> Void) {
@@ -38,3 +73,8 @@ final class SearchTableViewCell: BaseTableViewCell {
     deleteRowAction?()
   }
 }
+
+#Preview {
+  SearchTableViewCell()
+}
+
