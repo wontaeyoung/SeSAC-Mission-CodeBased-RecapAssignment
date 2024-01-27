@@ -6,21 +6,60 @@
 //
 
 import UIKit
+import SnapKit
 
-final class SearchViewController: BaseTableViewController, Navigatable, ViewModelController {
+final class SearchViewController: CodeBaseViewController, Navigatable {
   
-  @IBOutlet weak var searchBar: UISearchBar!
+  // MARK: - UI
+  private lazy var searchBar = UISearchBar().configured {
+    $0.placeholder = "브랜드, 상품, 프로필, 태그 등"
+    $0.barTintColor = .clear
+    $0.tintColor = .accent
+    $0.searchTextField.textColor = .raText
+    $0.autocorrectionType = .no
+    $0.autocapitalizationType = .none
+    $0.spellCheckingType = .no
+    $0.delegate = self
+  }
   
-  @IBOutlet weak var emptyImageView: UIImageView!
-  @IBOutlet weak var emptyLabel: UILabel!
+  private let emptyImageView = UIImageView().configured {
+    $0.image = .empty
+    $0.contentMode = .scaleAspectFit
+  }
+  
+  private let emptyLabel = UILabel().configured {
+    $0.text = "최근 검색어가 없어요"
+    $0.font = RADesign.Font.plainBold.font
+    $0.textColor = .raText
+    $0.textAlignment = .center
+  }
+  
+  private let recentSearchLabel = UILabel().configured {
+    $0.text = "최근 검색"
+    $0.font = RADesign.Font.plainBold.font
+    $0.textColor = .raText
+  }
+  
+  private let deleteAllButton = UIButton().configured { button in
+    button.configuration = .plain().configured {
+      $0.baseForegroundColor = .accent
+    }
+    .titleAttributed(with: "모두 지우기", font: RADesign.Font.plainBold.font)
+  }
+  
+  private lazy var recentSearchTableView = UITableView().configured {
+    $0.backgroundColor = .clear
+    $0.delegate = self
+    $0.dataSource = self
+    $0.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
+  }
+  
   private lazy var emptyView: [UIView] = [emptyImageView, emptyLabel]
-  
-  @IBOutlet weak var recentSearchLabel: UILabel!
-  @IBOutlet weak var deleteAllButton: UIButton!
-  @IBOutlet weak var recentSearchTableView: UITableView!
   private lazy var searchKeywordView: [UIView] = [recentSearchLabel, deleteAllButton, recentSearchTableView]
   
-  private var viewModel: SearchViewModel?
+  
+  // MARK: - Property
+  private let viewModel: SearchViewModel
   private var recentSearches: [String] = User.default.recentSearches {
     didSet {
       hideViewBy(isKeywordEmpty: recentSearches.isEmpty)
@@ -28,33 +67,68 @@ final class SearchViewController: BaseTableViewController, Navigatable, ViewMode
     }
   }
   
-  override func configure() {
-    DesignSystemManager.configureSearchBar(searchBar)
-    DesignSystemManager.configureEmptyLabel(emptyLabel)
-    DesignSystemManager.configureRecentSearchLabel(recentSearchLabel)
+  // MARK: - Initializer
+  init(viewModel: SearchViewModel) {
+    self.viewModel = viewModel
     
-    hideViewBy(isKeywordEmpty: User.default.recentSearches.isEmpty)
+    super.init()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: - Method
+  override func setHierarchy() {
+    view.addSubviews(
+      searchBar,
+      emptyImageView, emptyLabel,
+      recentSearchLabel, deleteAllButton, recentSearchTableView
+    )
   }
   
   override func setAttribute() {
     navigationItem.title = User.default.nickname + "님의 새싹쇼핑"
     navigationItem.backButtonTitle = ""
-    searchBar.placeholder = "브랜드, 상품, 프로필, 태그 등"
-    searchBar.delegate = self
-    emptyImageView.image = .empty
-    emptyLabel.text = "최근 검색어가 없어요"
-    recentSearchLabel.text = "최근 검색"
-    deleteAllButton.setTitle("모두 지우기", for: .normal)
+    
     deleteAllButton.addTarget(self, action: #selector(deleteAllButtonTapped), for: .touchUpInside)
+//    hideViewBy(isKeywordEmpty: User.default.recentSearches.isEmpty)
+    hideViewBy(isKeywordEmpty: false)
   }
   
-  override func register() {
-    self.tableCellRegister(recentSearchTableView, cellType: SearchTableViewCell.self)
-    self.setTableViewConfiguration(recentSearchTableView)
-  }
-  
-  func setViewModel(_ viewModel: SearchViewModel) {
-    self.viewModel = viewModel
+  override func setConstraint() {
+    
+    searchBar.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.horizontalEdges.equalToSuperview()
+    }
+    
+    emptyImageView.snp.makeConstraints {
+      $0.horizontalEdges.equalToSuperview()
+      $0.centerY.equalToSuperview()
+      $0.height.equalTo(emptyImageView.snp.width).multipliedBy(0.6)
+    }
+    
+    emptyLabel.snp.makeConstraints {
+      $0.top.equalTo(emptyImageView.snp.bottom).offset(10)
+      $0.centerX.equalToSuperview()
+      $0.width.equalTo(emptyImageView.snp.width)
+    }
+    
+    recentSearchLabel.snp.makeConstraints {
+      $0.leading.equalToSuperview().offset(10)
+      $0.centerY.equalTo(deleteAllButton)
+    }
+    
+    deleteAllButton.snp.makeConstraints {
+      $0.top.equalTo(searchBar.snp.bottom).offset(10)
+      $0.trailing.equalToSuperview().offset(-10)
+    }
+    
+    recentSearchTableView.snp.makeConstraints {
+      $0.top.equalTo(deleteAllButton.snp.bottom).offset(10)
+      $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+    }
   }
   
   private func hideViewBy(isKeywordEmpty: Bool) {
@@ -69,7 +143,7 @@ final class SearchViewController: BaseTableViewController, Navigatable, ViewMode
   }
   
   @objc private func deleteAllButtonTapped() {
-    viewModel?.showDeleteAllAlert { [weak self] in
+    viewModel.showDeleteAllAlert { [weak self] in
       guard let self else { return }
       
       User.default.recentSearches.removeAll()
@@ -123,8 +197,12 @@ extension SearchViewController: UISearchBarDelegate {
   
   private func searchNewKeyword(_ keyword: String) {
     User.default.addNewSearchKeyword(keyword)
-    viewModel?.showSearchResultViewController(keyword: keyword)
+    viewModel.showSearchResultViewController(keyword: keyword)
     bindRecentSearches()
     view.endEditing(true)
   }
+}
+
+#Preview {
+  SearchViewController(viewModel: SearchViewModel(coordinator: SearchCoordinator(UINavigationController())))
 }

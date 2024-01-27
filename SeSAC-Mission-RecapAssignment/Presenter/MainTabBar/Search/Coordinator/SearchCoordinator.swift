@@ -56,12 +56,8 @@ extension SearchCoordinator {
   
   func showSearchViewController() {
     let viewModel = SearchViewModel(coordinator: self)
-    let viewController = makeViewController(
-      storyboard: .Search,
-      viewController: SearchViewController.self
-    ) as! SearchViewController
+    let viewController = SearchViewController(viewModel: viewModel)
     
-    viewController.setViewModel(viewModel)
     self.push(viewController, animation: false)
   }
   
