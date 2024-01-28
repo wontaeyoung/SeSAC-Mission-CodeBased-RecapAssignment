@@ -7,26 +7,53 @@
 
 import UIKit
 import WebKit
+import SnapKit
 
-final class ProductDetailViewController: BaseViewController, Navigatable {
+final class ProductDetailViewController: CodeBaseViewController, Navigatable {
   
-  @IBOutlet weak var productWebView: WKWebView!
-  @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+  // MARK: - UI
+  private lazy var productWebView = WKWebView().configured {
+    $0.navigationDelegate = self
+  }
   
-  var product: Product?
+  private lazy var loadingIndicator = UIActivityIndicatorView().configured {
+    $0.style = .large
+    $0.center = view.center
+    $0.hidesWhenStopped = true
+  }
+  
+  
+  // MARK: - Property
+  let product: Product
   
   private var urlRequest: URLRequest {
-    let endPoint: NaverAPIEndpoint = .shopDetail(productID: product?.productID ?? "")
+    let endPoint: NaverAPIEndpoint = .shopDetail(productID: product.productID)
     let apiRequest = APIRequest(scheme: .https, host: .naverShopProductDetail, endpoint: endPoint)
     let url = apiRequest.components.url!
     
     return URLRequest(url: url)
   }
   
-  override func configure() {
-    guard let productID = product?.productID else { return }
+  
+  // MARK: - Initializer
+  init(product: Product) {
+    self.product = product
     
-    let isContains: Bool = User.default.likes.contains(productID)
+    super.init()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  
+  // MARK: - Life Cycle
+  override func setHierarchy() {
+    view.addSubviews(productWebView, loadingIndicator)
+  }
+  
+  override func setAttribute() {
+    let isContains: Bool = User.default.likes.contains(product.productID)
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       image: isContains ? RADesign.Image.likeFill.image : RADesign.Image.like.image,
@@ -35,36 +62,26 @@ final class ProductDetailViewController: BaseViewController, Navigatable {
       action: #selector(likeButtonTapped)
     )
     
-    loadingIndicator.configure {
-      $0.style = .large
-      $0.center = self.view.center
-      $0.hidesWhenStopped = true
-    }
-  }
-  
-  override func setAttribute() {
-    guard let product else { return }
-    
     navigationItem.title = product.title.asMarkdownRedneredAttributeString?.string
-    productWebView.navigationDelegate = self
+    
     productWebView.load(urlRequest)
   }
   
-  func setData(product: Product) {
-    self.product = product
+  override func setConstraint() {
+    productWebView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
   }
-    
+  
+  
+  // MARK: - Method
   @objc private func likeButtonTapped(_ sender: UIButton) {
-    guard let productID = product?.productID else { return }
-    
-    User.default.toggleLike(productID: productID)
+    User.default.toggleLike(productID: product.productID)
     updateLikeImage()
   }
   
   private func updateLikeImage() {
-    guard let productID = product?.productID else { return }
-    
-    let isContains: Bool = User.default.likes.contains(productID)
+    let isContains: Bool = User.default.likes.contains(product.productID)
     
     navigationItem.rightBarButtonItem?.image = isContains
     ? RADesign.Image.likeFill.image

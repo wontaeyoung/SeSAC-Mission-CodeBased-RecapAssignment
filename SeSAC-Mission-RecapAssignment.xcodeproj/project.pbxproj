@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6E03687C2B5D563B000C64D2 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E03687B2B5D563B000C64D2 /* Search.storyboard */; };
 		6E0368882B5D6496000C64D2 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0368862B5D6496000C64D2 /* SearchTableViewCell.swift */; };
 		6E03688C2B5D72A3000C64D2 /* SearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E03688B2B5D72A3000C64D2 /* SearchResultViewModel.swift */; };
 		6E03688E2B5D7307000C64D2 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E03688D2B5D7306000C64D2 /* SearchResultViewController.swift */; };
@@ -98,7 +97,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6E03687B2B5D563B000C64D2 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		6E0368862B5D6496000C64D2 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		6E03688B2B5D72A3000C64D2 /* SearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewModel.swift; sourceTree = "<group>"; };
 		6E03688D2B5D7306000C64D2 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
@@ -599,7 +597,6 @@
 		6E25C2092B5D003A00FCC927 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				6E03687B2B5D563B000C64D2 /* Search.storyboard */,
 				6E25C20B2B5D008500FCC927 /* Coordinator */,
 				6E0368852B5D6476000C64D2 /* SearchProduct */,
 				6E03688A2B5D7288000C64D2 /* SearchResult */,
@@ -712,7 +709,6 @@
 				6E25C1442B59005D00FCC927 /* Assets.xcassets in Resources */,
 				6E25C1FF2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.xib in Resources */,
 				6E0368A32B5E316C000C64D2 /* Setting.storyboard in Resources */,
-				6E03687C2B5D563B000C64D2 /* Search.storyboard in Resources */,
 				6E0368AD2B5E45DD000C64D2 /* SettingProfileTableViewCell.xib in Resources */,
 				6E25C1E22B5ABDD300FCC927 /* Onboarding.storyboard in Resources */,
 			);

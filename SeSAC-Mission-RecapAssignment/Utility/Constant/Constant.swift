@@ -17,7 +17,6 @@ enum Constant {
   enum Storyboard: String {
     case Onboarding
     case ProfileSetting
-    case Search
     case Setting
     
     var name: String {

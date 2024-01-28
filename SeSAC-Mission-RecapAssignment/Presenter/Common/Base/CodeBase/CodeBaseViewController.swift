@@ -34,7 +34,7 @@ class CodeBaseViewController: UIViewController {
     setHierarchy()
     setAttribute()
     setConstraint()
-    makeViewFinishableEditing()
+    if finishableKeyboardEditing { makeViewFinishableEditing() }
   }
 }
 
@@ -49,23 +49,5 @@ extension CodeBaseViewController {
     if finishableKeyboardEditing {
       view.endEditing(true)
     }
-  }
-}
-
-
-protocol FinishableEditing {
-  func makeViewFinishableEditing()
-  func dismissKeyboard()
-}
-
-extension FinishableEditing where Self: UIViewController {
-  func makeViewFinishableEditing() {
-    let gesture = UITapGestureRecognizer(target: self, action: #selector(viewDidTap))
-    
-    view.addGestureRecognizer(gesture)
-  }
-  
-  @objc func viewDidTap(_ sender: UIGestureRecognizer) {
-    view.endEditing(true)
   }
 }

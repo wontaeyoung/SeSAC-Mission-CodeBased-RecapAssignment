@@ -69,12 +69,8 @@ extension SearchCoordinator {
   }
   
   func showProductDetailViewController(product: Product) {
-    let viewController = makeViewController(
-      storyboard: .Search,
-      viewController: ProductDetailViewController.self
-    ) as! ProductDetailViewController
+    let viewController = ProductDetailViewController(product: product)
     
-    viewController.setData(product: product)
     self.push(viewController)
   }
 }
