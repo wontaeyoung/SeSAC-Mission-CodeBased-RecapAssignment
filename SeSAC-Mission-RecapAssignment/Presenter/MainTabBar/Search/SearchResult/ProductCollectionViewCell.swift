@@ -47,12 +47,11 @@ final class ProductCollectionViewCell: CodeBaseCollectionViewCell {
   override func setHierarchy() {
     contentView.addSubviews(
       productImageView,
+      likeButton,
       mallNameLabel,
       titleLabel,
       priceLabel
     )
-    
-    productImageView.addSubview(likeButton)
   }
   
   override func setConstraint() {
@@ -62,8 +61,8 @@ final class ProductCollectionViewCell: CodeBaseCollectionViewCell {
     }
     
     likeButton.snp.makeConstraints {
-      $0.bottom.trailing.equalToSuperview().inset(8)
-      $0.size.equalToSuperview().multipliedBy(0.2)
+      $0.bottom.trailing.equalTo(productImageView).inset(8)
+      $0.size.equalTo(productImageView.snp.size).multipliedBy(0.2)
     }
     
     mallNameLabel.snp.makeConstraints {

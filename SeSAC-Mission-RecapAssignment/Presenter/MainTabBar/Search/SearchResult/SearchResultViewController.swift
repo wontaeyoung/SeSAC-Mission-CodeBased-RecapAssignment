@@ -160,8 +160,7 @@ final class SearchResultViewController: CodeBaseViewController, Navigatable {
     currentSortType = .allCases[sender.tag]
   }
   
-  @objc private func likeButtonTapped(_ sender: UIButton) {
-    print(sender.tag.description + "눌림")
+  @objc func likeButtonTapped(_ sender: UIButton) {
     let productID: String = products[sender.tag].productID
     User.default.toggleLike(productID: productID)
     productCollectionView.reloadItems(at: [IndexPath(row: sender.tag, section: 0)])
