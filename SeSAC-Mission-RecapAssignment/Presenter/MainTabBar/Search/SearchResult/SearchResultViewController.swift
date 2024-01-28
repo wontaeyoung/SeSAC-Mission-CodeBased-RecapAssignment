@@ -6,18 +6,64 @@
 //
 
 import UIKit
+import SnapKit
 
-final class SearchResultViewController: BaseCollectionViewController, Navigatable, ViewModelController {
+final class SearchResultViewController: CodeBaseViewController, Navigatable {
   
-  @IBOutlet weak var resultCountLabel: UILabel!
-  @IBOutlet var sortButtons: [UIButton]!
-  @IBOutlet weak var productCollectionView: UICollectionView!
-  @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+  // MARK: - UI
+  private let resultCountLabel = UILabel().configured {
+    $0.font = RADesign.Font.captionBold.font
+    $0.textColor = .accent
+  }
   
-  private var viewModel: SearchResultViewModel?
-  private var searchKeyword: String = ""
+  private let sortButtons: [UIButton] = NaverAPIEndpoint.Sort.allCases.enumerated().map { index, sortCase in
+    
+    return UIButton().configured { button in
+      button.tag = index
+      button.configuration = .borderedProminent().configured {
+        $0.title = sortCase.title
+        $0.cornerStyle = .medium
+        $0.buttonSize = .mini
+        $0.background.strokeColor = .raText
+        $0.background.strokeWidth = 1
+      }
+    }
+  }
   
-  private var products: [Product] = [] {
+  private lazy var sortStackView = UIStackView().configured { stack in
+    stack.axis = .horizontal
+    stack.distribution = .fillProportionally
+    stack.spacing = 4
+    
+    sortButtons.forEach {
+      stack.addArrangedSubview($0)
+    }
+  }
+  
+  private lazy var productCollectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).configured {
+    let cell = ProductCollectionViewCell.self
+    
+    $0.backgroundColor = .clear
+    $0.delegate = self
+    $0.dataSource = self
+    $0.prefetchDataSource = self
+    $0.register(cell, forCellWithReuseIdentifier: cell.identifier)
+    $0.setLayout(count: 2, spacing: 8, heightBuffer: 100)
+  }
+  
+  private lazy var loadingIndicator = UIActivityIndicatorView().configured {
+    $0.style = .large
+    $0.center = view.center
+    $0.hidesWhenStopped = true
+    $0.startAnimating()
+  }
+  
+  
+  // MARK: - Property
+  private let viewModel: SearchResultViewModel
+  private var searchKeyword: String
+  
+  private var products: [Product] {
     didSet {
       stopLoading()
       productCollectionView.reloadData()
@@ -28,75 +74,86 @@ final class SearchResultViewController: BaseCollectionViewController, Navigatabl
     didSet {
       guard oldValue != currentSortType else { return }
       
-      configure()
-      viewModel?.apiContainer.resetPage()
+      configureSortButtons()
+      viewModel.apiContainer.resetPage()
       resetProducts()
       callRequest()
       startLoading()
     }
   }
   
+  
+  // MARK: - Initializer
+  init(viewModel: SearchResultViewModel, searchKeyword: String) {
+    self.viewModel = viewModel
+    self.searchKeyword = searchKeyword
+    self.products = []
+    
+    super.init()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  
+  // MARK: - Life Cycle
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
     productCollectionView.reloadData()
   }
   
-  override func configure() {
-    loadingIndicator.configure {
-      $0.style = .large
-      $0.center = self.view.center
-      $0.hidesWhenStopped = true
-      $0.startAnimating()
-    }
-    
-    DesignSystemManager.configureResultCountLabel(resultCountLabel)
-    
-    sortButtons.enumerated().forEach { index, button in
-      button.tag = index
-      DesignSystemManager.configureSortButton(button, isSelected: index == currentSortType.tag)
-    }
+  override func setHierarchy() {
+    view.addSubviews(
+      resultCountLabel,
+      sortStackView,
+      productCollectionView,
+      loadingIndicator
+    )
   }
   
   override func setAttribute() {
     navigationItem.title = searchKeyword
     navigationItem.backButtonTitle = ""
     
-    sortButtons.enumerated().forEach { index, button in
-      let title: String = NaverAPIEndpoint.Sort.allCases[index].title
-      button.setTitle(title, for: .normal)
-      button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+    sortButtons.forEach {
+      $0.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
     }
     
+    configureSortButtons()
     callRequest()
   }
   
-  override func register() {
-    self.collectionCellRegister(productCollectionView, cellType: ProductCollectionViewCell.self)
-    self.setCollectionViewConfiguration(productCollectionView)
-  }
-  
-  override func setLayout() {
-    let cellCount: Int = 2
-    let cellSpacing: CGFloat = 16
-    let cellWidth: CGFloat = (UIScreen.main.bounds.width - (cellSpacing * CGFloat(2 + cellCount - 1))) / CGFloat(cellCount)
-    
-    let layout = UICollectionViewFlowLayout().configured {
-      $0.itemSize = CGSize(width: cellWidth, height: cellWidth + 120)
-      $0.sectionInset = UIEdgeInsets(top: cellSpacing, left: cellSpacing, bottom: cellSpacing, right: cellSpacing)
-      $0.minimumLineSpacing = cellSpacing
-      $0.minimumInteritemSpacing = cellSpacing
+  override func setConstraint() {
+    resultCountLabel.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.horizontalEdges.equalToSuperview().inset(8)
     }
     
-    productCollectionView.collectionViewLayout = layout
+    sortStackView.snp.makeConstraints {
+      $0.top.equalTo(resultCountLabel.snp.bottom).offset(8)
+      $0.leading.equalToSuperview().inset(8)
+      $0.trailing.greaterThanOrEqualToSuperview().offset(-8)
+    }
+    
+    productCollectionView.snp.makeConstraints {
+      $0.top.equalTo(sortStackView.snp.bottom).offset(8)
+      $0.horizontalEdges.equalToSuperview()
+      $0.bottom.equalTo(view.safeAreaLayoutGuide)
+    }
   }
   
-  func setViewModel(_ viewModel: SearchResultViewModel) {
-    self.viewModel = viewModel
-  }
-  
-  func setData(keyword: String) {
-    searchKeyword = keyword
+  // MARK: - Method
+  private func configureSortButtons() {
+    sortButtons.forEach { button in
+      let isSelected: Bool = currentSortType.tag == button.tag
+      
+      button.configuration?.configure {
+        $0.baseForegroundColor = isSelected ? .raBackground : .raText
+        $0.baseBackgroundColor = isSelected ? .raText : .raBackground
+      }
+    }
   }
   
   @objc private func sortButtonTapped(_ sender: UIButton) {
@@ -104,6 +161,7 @@ final class SearchResultViewController: BaseCollectionViewController, Navigatabl
   }
   
   @objc private func likeButtonTapped(_ sender: UIButton) {
+    print(sender.tag.description + "눌림")
     let productID: String = products[sender.tag].productID
     User.default.toggleLike(productID: productID)
     productCollectionView.reloadItems(at: [IndexPath(row: sender.tag, section: 0)])
@@ -114,7 +172,7 @@ final class SearchResultViewController: BaseCollectionViewController, Navigatabl
   }
   
   private func callRequest() {
-    viewModel?.callRequest(query: searchKeyword, sort: currentSortType) { (count, products) in
+    viewModel.callRequest(query: searchKeyword, sort: currentSortType) { (count, products) in
       DispatchQueue.main.async { [weak self] in
         guard let self else { return }
         
@@ -160,11 +218,11 @@ extension SearchResultViewController: CollectionConfigurable {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let product: Product = products[indexPath.row]
     
-    viewModel?.showProductDetailViewController(product: product)
+    viewModel.showProductDetailViewController(product: product)
   }
   
   func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) { 
-    guard let viewModel, !viewModel.apiContainer.isEnd else { return }
+    guard !viewModel.apiContainer.isEnd else { return }
     
     indexPaths
       .forEach { path in
@@ -173,4 +231,9 @@ extension SearchResultViewController: CollectionConfigurable {
         }
       }
   }
+}
+
+@available(iOS 17, *)
+#Preview {
+  SearchResultViewController(viewModel: SearchResultViewModel(coordinator: SearchCoordinator(UINavigationController())), searchKeyword: "바둑")
 }

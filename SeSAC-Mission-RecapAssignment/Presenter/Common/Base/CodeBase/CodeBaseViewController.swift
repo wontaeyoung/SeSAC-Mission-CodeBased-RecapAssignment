@@ -39,7 +39,7 @@ class CodeBaseViewController: UIViewController {
 }
 
 extension CodeBaseViewController {
-  private func makeViewFinishableEditing() {
+  func makeViewFinishableEditing() {
     let gesture = UITapGestureRecognizer(target: self, action: #selector(viewDidTap))
     
     view.addGestureRecognizer(gesture)
@@ -48,8 +48,24 @@ extension CodeBaseViewController {
   @objc private func viewDidTap(_ sender: UIGestureRecognizer) {
     if finishableKeyboardEditing {
       view.endEditing(true)
-    } else {
-      view.removeGestureRecognizer(sender)
     }
+  }
+}
+
+
+protocol FinishableEditing {
+  func makeViewFinishableEditing()
+  func dismissKeyboard()
+}
+
+extension FinishableEditing where Self: UIViewController {
+  func makeViewFinishableEditing() {
+    let gesture = UITapGestureRecognizer(target: self, action: #selector(viewDidTap))
+    
+    view.addGestureRecognizer(gesture)
+  }
+  
+  @objc func viewDidTap(_ sender: UIGestureRecognizer) {
+    view.endEditing(true)
   }
 }

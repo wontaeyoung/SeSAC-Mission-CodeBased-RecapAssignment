@@ -78,7 +78,7 @@ final class SearchViewController: CodeBaseViewController, Navigatable {
     fatalError("init(coder:) has not been implemented")
   }
   
-  // MARK: - Method
+  // MARK: - Life Cycle
   override func setHierarchy() {
     view.addSubviews(
       searchBar,
