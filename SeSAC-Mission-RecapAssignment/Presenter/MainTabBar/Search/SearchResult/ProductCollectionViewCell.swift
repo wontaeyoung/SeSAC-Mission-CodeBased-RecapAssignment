@@ -7,24 +7,81 @@
 
 import UIKit
 import Kingfisher
+import SnapKit
 
-final class ProductCollectionViewCell: BaseCollectionViewCell {
+final class ProductCollectionViewCell: CodeBaseCollectionViewCell {
   
-  @IBOutlet weak var productImageView: UIImageView!
-  @IBOutlet weak var mallNameLabel: UILabel!
-  @IBOutlet weak var titleLabel: UILabel!
-  @IBOutlet weak var priceLabel: UILabel!
-  @IBOutlet weak var likeButton: UIButton!
+  // MARK: - UI
+  private let productImageView = UIImageView().configured {
+    $0.clipsToBounds = true
+    $0.layer.cornerRadius = 15
+    $0.contentMode = .scaleAspectFill
+  }
   
-  override func configure() {
-    DispatchQueue.main.async { [weak self] in
-      guard let self else { return }
-      
-      DesignSystemManager.configureProductImageView(productImageView)
-      DesignSystemManager.configureMallNameLabel(mallNameLabel)
-      DesignSystemManager.configureProductTitleLabel(titleLabel)
-      DesignSystemManager.configureProductPriceLabel(priceLabel)
-      DesignSystemManager.configureLikeButton(likeButton)
+  let likeButton = UIButton().configured { button in
+    button.configuration = .filled().configured {
+      $0.baseForegroundColor = .raBackground
+      $0.baseBackgroundColor = .raText
+      $0.cornerStyle = .capsule
+    }
+  }
+  
+  private let mallNameLabel = UILabel().configured {
+    $0.font = RADesign.Font.caption.font
+    $0.textColor = .gray
+  }
+  
+  private let titleLabel = UILabel().configured {
+    $0.font = RADesign.Font.caption.font
+    $0.textColor = .raText
+    $0.numberOfLines = 2
+  }
+  
+  private let priceLabel = UILabel().configured {
+    $0.font = RADesign.Font.plainBold.font
+    $0.textColor = .raText
+  }
+  
+  
+  // MARK: - Method
+  override func setHierarchy() {
+    contentView.addSubviews(
+      productImageView,
+      mallNameLabel,
+      titleLabel,
+      priceLabel
+    )
+    
+    productImageView.addSubview(likeButton)
+  }
+  
+  override func setConstraint() {
+    productImageView.snp.makeConstraints {
+      $0.top.horizontalEdges.equalToSuperview()
+      $0.height.equalTo(productImageView.snp.width)
+    }
+    
+    likeButton.snp.makeConstraints {
+      $0.bottom.trailing.equalToSuperview().inset(8)
+      $0.size.equalToSuperview().multipliedBy(0.2)
+    }
+    
+    mallNameLabel.snp.makeConstraints {
+      $0.top.equalTo(productImageView.snp.bottom).offset(8)
+      $0.horizontalEdges.equalToSuperview().inset(8)
+      $0.height.equalTo(20)
+    }
+    
+    titleLabel.snp.makeConstraints {
+      $0.top.equalTo(mallNameLabel.snp.bottom).offset(8)
+      $0.horizontalEdges.equalToSuperview().inset(8)
+      $0.bottom.equalTo(priceLabel.snp.top).offset(-8)
+    }
+    
+    priceLabel.snp.makeConstraints {
+      $0.top.equalTo(titleLabel.snp.bottom).offset(8)
+      $0.horizontalEdges.equalToSuperview().inset(8)
+      $0.bottom.greaterThanOrEqualTo(contentView.safeAreaLayoutGuide).offset(-8)
     }
   }
   
@@ -40,4 +97,12 @@ final class ProductCollectionViewCell: BaseCollectionViewCell {
     likeButton.setImage(likeImage, for: .normal)
     likeButton.tag = tag
   }
+}
+
+@available(iOS 17.0, *)
+#Preview {
+  let cell = ProductCollectionViewCell()
+  cell.setData(product: .init(productID: "", title: "상품명\n\n상품명", mallName: "상점명", lprice: 4000, image: ""), tag: 0)
+  
+  return cell
 }

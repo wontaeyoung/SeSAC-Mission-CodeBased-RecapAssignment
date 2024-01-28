@@ -9,12 +9,10 @@
 /* Begin PBXBuildFile section */
 		6E03687C2B5D563B000C64D2 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E03687B2B5D563B000C64D2 /* Search.storyboard */; };
 		6E0368882B5D6496000C64D2 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0368862B5D6496000C64D2 /* SearchTableViewCell.swift */; };
-		6E0368892B5D6496000C64D2 /* SearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E0368872B5D6496000C64D2 /* SearchTableViewCell.xib */; };
 		6E03688C2B5D72A3000C64D2 /* SearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E03688B2B5D72A3000C64D2 /* SearchResultViewModel.swift */; };
 		6E03688E2B5D7307000C64D2 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E03688D2B5D7306000C64D2 /* SearchResultViewController.swift */; };
 		6E0368962B5DFC67000C64D2 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0368952B5DFC67000C64D2 /* Int+.swift */; };
 		6E03689D2B5E014D000C64D2 /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E03689B2B5E014D000C64D2 /* ProductCollectionViewCell.swift */; };
-		6E03689E2B5E014D000C64D2 /* ProductCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E03689C2B5E014D000C64D2 /* ProductCollectionViewCell.xib */; };
 		6E0368A12B5E20E0000C64D2 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0368A02B5E20E0000C64D2 /* ProductDetailViewController.swift */; };
 		6E0368A32B5E316C000C64D2 /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E0368A22B5E316C000C64D2 /* Setting.storyboard */; };
 		6E0368A72B5E3692000C64D2 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0368A62B5E3692000C64D2 /* SettingTableViewCell.swift */; };
@@ -102,12 +100,10 @@
 /* Begin PBXFileReference section */
 		6E03687B2B5D563B000C64D2 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		6E0368862B5D6496000C64D2 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
-		6E0368872B5D6496000C64D2 /* SearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchTableViewCell.xib; sourceTree = "<group>"; };
 		6E03688B2B5D72A3000C64D2 /* SearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewModel.swift; sourceTree = "<group>"; };
 		6E03688D2B5D7306000C64D2 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		6E0368952B5DFC67000C64D2 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		6E03689B2B5E014D000C64D2 /* ProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewCell.swift; sourceTree = "<group>"; };
-		6E03689C2B5E014D000C64D2 /* ProductCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductCollectionViewCell.xib; sourceTree = "<group>"; };
 		6E0368A02B5E20E0000C64D2 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		6E0368A22B5E316C000C64D2 /* Setting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
 		6E0368A62B5E3692000C64D2 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -211,7 +207,6 @@
 				6E25C20C2B5D009200FCC927 /* SearchViewController.swift */,
 				6E25C20E2B5D009800FCC927 /* SearchViewModel.swift */,
 				6E0368862B5D6496000C64D2 /* SearchTableViewCell.swift */,
-				6E0368872B5D6496000C64D2 /* SearchTableViewCell.xib */,
 			);
 			path = SearchProduct;
 			sourceTree = "<group>";
@@ -222,7 +217,6 @@
 				6E03688D2B5D7306000C64D2 /* SearchResultViewController.swift */,
 				6E03688B2B5D72A3000C64D2 /* SearchResultViewModel.swift */,
 				6E03689B2B5E014D000C64D2 /* ProductCollectionViewCell.swift */,
-				6E03689C2B5E014D000C64D2 /* ProductCollectionViewCell.xib */,
 			);
 			path = SearchResult;
 			sourceTree = "<group>";
@@ -717,10 +711,8 @@
 				6E25C1472B59005D00FCC927 /* LaunchScreen.storyboard in Resources */,
 				6E25C1442B59005D00FCC927 /* Assets.xcassets in Resources */,
 				6E25C1FF2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.xib in Resources */,
-				6E0368892B5D6496000C64D2 /* SearchTableViewCell.xib in Resources */,
 				6E0368A32B5E316C000C64D2 /* Setting.storyboard in Resources */,
 				6E03687C2B5D563B000C64D2 /* Search.storyboard in Resources */,
-				6E03689E2B5E014D000C64D2 /* ProductCollectionViewCell.xib in Resources */,
 				6E0368AD2B5E45DD000C64D2 /* SettingProfileTableViewCell.xib in Resources */,
 				6E25C1E22B5ABDD300FCC927 /* Onboarding.storyboard in Resources */,
 			);
