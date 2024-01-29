@@ -49,13 +49,9 @@ extension AuthCoordinator {
   
   func showProfileImageSttingViewController() {
     let viewModel = ProfileImageSettingViewModel(coordinator: self)
-    let viewController = makeViewController(
-      storyboard: .ProfileSetting,
-      viewController: ProfileImageSettingViewController.self
-    ) as! ProfileImageSettingViewController
-    
-    viewController.setViewModel(viewModel)
+    let viewController = ProfileImageSettingViewController(viewModel: viewModel)
     viewController.setNavigationTitle(with: "프로필 수정")
+    
     self.push(viewController)
   }
 }
