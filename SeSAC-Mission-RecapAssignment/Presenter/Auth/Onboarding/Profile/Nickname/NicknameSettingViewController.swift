@@ -41,7 +41,7 @@ final class NicknameSettingViewController: CodeBaseViewController, Navigatable {
       $0.baseForegroundColor = .raText
       $0.baseBackgroundColor = .accent
       $0.buttonSize = .large
-      $0.cornerStyle = .capsule
+      $0.cornerStyle = .medium
     }
     .titleAttributed(with: "완료", font: RADesign.Font.primaryTitle.font)
   }
@@ -195,7 +195,9 @@ extension NicknameSettingViewController {
   
   private func toggleFinishButton() {
     finishButton.isEnabled = isFinishButtonEnable
-    finishButton.backgroundColor = isFinishButtonEnable ? .accent : .gray
+    finishButton.configuration?.configure {
+      $0.baseBackgroundColor = isFinishButtonEnable ? .accent : .gray
+    }
   }
 }
 
