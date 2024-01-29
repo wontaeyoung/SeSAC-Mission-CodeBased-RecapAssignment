@@ -72,13 +72,11 @@
 		6E25C1E82B5AC0DD00FCC927 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C1E72B5AC0DD00FCC927 /* AuthCoordinator.swift */; };
 		6E25C1EA2B5AC11F00FCC927 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C1E92B5AC11F00FCC927 /* ViewModel.swift */; };
 		6E25C1EC2B5AD0E800FCC927 /* ViewModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C1EB2B5AD0E800FCC927 /* ViewModelController.swift */; };
-		6E25C1EF2B5BEE5A00FCC927 /* ProfileSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E25C1EE2B5BEE5A00FCC927 /* ProfileSetting.storyboard */; };
 		6E25C1F12B5BEE7200FCC927 /* NicknameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C1F02B5BEE7200FCC927 /* NicknameSettingViewController.swift */; };
 		6E25C1F32B5BEE7A00FCC927 /* NicknameSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C1F22B5BEE7A00FCC927 /* NicknameSettingViewModel.swift */; };
 		6E25C1F92B5C2A0200FCC927 /* ProfileImageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C1F82B5C2A0200FCC927 /* ProfileImageSettingViewController.swift */; };
 		6E25C1FB2B5C2A3300FCC927 /* ProfileImageSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C1FA2B5C2A3300FCC927 /* ProfileImageSettingViewModel.swift */; };
 		6E25C1FE2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C1FC2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.swift */; };
-		6E25C1FF2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E25C1FD2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.xib */; };
 		6E25C2022B5CA9B000FCC927 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C2012B5CA9B000FCC927 /* Profile.swift */; };
 		6E25C2042B5CAA4800FCC927 /* MainTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C2032B5CAA4800FCC927 /* MainTabBarCoordinator.swift */; };
 		6E25C2062B5CAA8D00FCC927 /* MainTabBarPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C2052B5CAA8D00FCC927 /* MainTabBarPage.swift */; };
@@ -161,13 +159,11 @@
 		6E25C1E72B5AC0DD00FCC927 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		6E25C1E92B5AC11F00FCC927 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		6E25C1EB2B5AD0E800FCC927 /* ViewModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelController.swift; sourceTree = "<group>"; };
-		6E25C1EE2B5BEE5A00FCC927 /* ProfileSetting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProfileSetting.storyboard; sourceTree = "<group>"; };
 		6E25C1F02B5BEE7200FCC927 /* NicknameSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameSettingViewController.swift; sourceTree = "<group>"; };
 		6E25C1F22B5BEE7A00FCC927 /* NicknameSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameSettingViewModel.swift; sourceTree = "<group>"; };
 		6E25C1F82B5C2A0200FCC927 /* ProfileImageSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageSettingViewController.swift; sourceTree = "<group>"; };
 		6E25C1FA2B5C2A3300FCC927 /* ProfileImageSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageSettingViewModel.swift; sourceTree = "<group>"; };
 		6E25C1FC2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		6E25C1FD2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		6E25C2012B5CA9B000FCC927 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		6E25C2032B5CAA4800FCC927 /* MainTabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarCoordinator.swift; sourceTree = "<group>"; };
 		6E25C2052B5CAA8D00FCC927 /* MainTabBarPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarPage.swift; sourceTree = "<group>"; };
@@ -560,7 +556,6 @@
 		6E25C1ED2B5BEDC300FCC927 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				6E25C1EE2B5BEE5A00FCC927 /* ProfileSetting.storyboard */,
 				6E25C1F62B5C27DB00FCC927 /* Nickname */,
 				6E25C1F72B5C27DF00FCC927 /* ProfileImage */,
 			);
@@ -583,7 +578,6 @@
 				6E25C1F82B5C2A0200FCC927 /* ProfileImageSettingViewController.swift */,
 				6E25C1FA2B5C2A3300FCC927 /* ProfileImageSettingViewModel.swift */,
 				6E25C1FC2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.swift */,
-				6E25C1FD2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.xib */,
 			);
 			path = ProfileImage;
 			sourceTree = "<group>";
@@ -715,10 +709,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E25C1EF2B5BEE5A00FCC927 /* ProfileSetting.storyboard in Resources */,
 				6E25C1472B59005D00FCC927 /* LaunchScreen.storyboard in Resources */,
 				6E25C1442B59005D00FCC927 /* Assets.xcassets in Resources */,
-				6E25C1FF2B5C2CE100FCC927 /* ProfileImageCollectionViewCell.xib in Resources */,
 				6E0368A32B5E316C000C64D2 /* Setting.storyboard in Resources */,
 				6E0368AD2B5E45DD000C64D2 /* SettingProfileTableViewCell.xib in Resources */,
 				6E25C1E22B5ABDD300FCC927 /* Onboarding.storyboard in Resources */,

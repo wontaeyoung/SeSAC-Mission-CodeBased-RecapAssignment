@@ -6,21 +6,28 @@
 //
 
 import UIKit
+import SnapKit
 
-final class ProfileImageCollectionViewCell: BaseCollectionViewCell {
+final class ProfileImageCollectionViewCell: CodeBaseCollectionViewCell {
   
-  @IBOutlet weak var profileImageView: UIImageView!
+  // MARK: - UI
+  let profileImageView = ProfileImageView()
   
-  override func configure() {
-    DispatchQueue.main.async {
-      
-      DesignSystemManager.configureProfileImageView(self.profileImageView)
-    }
-  }
   
+  // MARK: - Life cycle
   override func prepareForReuse() {
     super.prepareForReuse()
     
     profileImageView.layer.borderWidth = .zero
+  }
+  
+  override func setHierarchy() {
+    contentView.addSubview(profileImageView)
+  }
+  
+  override func setConstraint() {
+    profileImageView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
   }
 }

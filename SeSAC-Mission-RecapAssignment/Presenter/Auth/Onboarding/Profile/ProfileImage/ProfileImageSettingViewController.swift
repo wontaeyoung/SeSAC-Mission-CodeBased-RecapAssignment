@@ -20,13 +20,12 @@ final class ProfileImageSettingViewController: CodeBaseViewController, Navigatab
     collectionViewLayout: .init()
   )
     .configured {
-      
-      let cell = UINib(nibName: ProfileImageCollectionViewCell.identifier, bundle: nil)
+      let cell = ProfileImageCollectionViewCell.self
       
       $0.backgroundColor = .clear
       $0.delegate = self
       $0.dataSource = self
-      $0.register(cell, forCellWithReuseIdentifier: ProfileImageCollectionViewCell.identifier)
+      $0.register(cell, forCellWithReuseIdentifier: cell.identifier)
       $0.setLayout(count: 4, spacing: 16, heightBuffer: .zero)
     }
   
@@ -87,16 +86,16 @@ extension ProfileImageSettingViewController: CollectionConfigurable {
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
-    let profile: User.Profile = .allCases[indexPath.row]
     let cell = collectionView.dequeueReusableCell(
       withReuseIdentifier: ProfileImageCollectionViewCell.identifier,
       for: indexPath
     ) as! ProfileImageCollectionViewCell
+    let profile: User.Profile = .allCases[indexPath.row]
     
     cell.profileImageView.image = profile.image
     
     if User.default.profile == profile {
-      DesignSystemManager.configureSelectedImageView(cell.profileImageView)
+      cell.profileImageView.toggleSelected()
     }
     
     return cell

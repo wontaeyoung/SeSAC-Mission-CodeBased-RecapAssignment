@@ -10,7 +10,11 @@ import SnapKit
 
 final class ProfileImageView: UIImageView {
   
-  private var isSelected: Bool
+  private var isSelected: Bool {
+    didSet {
+      configureUI()
+    }
+  }
   private var hasPhotoIcon: Bool
   
   init(isSelected: Bool = false, hasPhotoIcon: Bool = false) {
@@ -61,5 +65,9 @@ final class ProfileImageView: UIImageView {
     }
     
     cameraIcon.layer.cornerRadius = cameraIcon.frame.width / 2
+  }
+  
+  func toggleSelected() {
+    self.isSelected.toggle()
   }
 }
