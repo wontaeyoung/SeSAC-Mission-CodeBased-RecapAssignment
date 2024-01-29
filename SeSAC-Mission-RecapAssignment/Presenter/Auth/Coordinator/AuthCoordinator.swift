@@ -41,13 +41,9 @@ extension AuthCoordinator {
   
   func showNicknameSettingViewController() {
     let viewModel = NicknameSettingViewModel(coordinator: self)
-    let viewController = makeViewController(
-      storyboard: .ProfileSetting,
-      viewController: NicknameSettingViewController.self
-    ) as! NicknameSettingViewController
-    
-    viewController.setViewModel(viewModel)
+    let viewController = NicknameSettingViewController(viewModel: viewModel)
     viewController.setNavigationTitle(with: "프로필 설정")
+    
     self.push(viewController)
   }
   

@@ -6,21 +6,67 @@
 //
 
 import UIKit
+import SnapKit
 
-final class NicknameSettingViewController: BaseViewController, Navigatable, ViewModelController {
+final class NicknameSettingViewController: CodeBaseViewController, Navigatable {
   
-  @IBOutlet weak var profileImageView: UIImageView!
-  @IBOutlet weak var nicknameField: UITextField!
-  @IBOutlet weak var hintLabel: UILabel!
-  @IBOutlet weak var finishButton: UIButton!
+  // MARK: - UI
+  private let profileImageView = ProfileImageView(isSelected: true).configured {
+    $0.image = User.default.profile.image
+  }
   
-  private var viewModel: NicknameSettingViewModel?
+  private let nicknameField = UITextField().configured { field in
+    
+    
+    
+    field.placeholder = "닉네임을 입력해주세요 :)"
+    field.text = User.default.nickname
+    field.borderStyle = .none
+    field.textColor = .raText
+    field.backgroundColor = .clear
+    field.autocorrectionType = .no
+    field.autocapitalizationType = .none
+    field.spellCheckingType = .no
+  }
+  
+  private let hintLabel = UILabel().configured {
+    $0.font = RADesign.Font.caption.font
+    $0.textColor = .red
+    $0.textAlignment = .left
+    $0.numberOfLines = 2
+  }
+  
+  private lazy var finishButton = UIButton().configured { button in
+    button.configuration = .filled().configured {
+      $0.baseForegroundColor = .raText
+      $0.baseBackgroundColor = .accent
+      $0.buttonSize = .large
+      $0.cornerStyle = .capsule
+    }
+    .titleAttributed(with: "완료", font: RADesign.Font.primaryTitle.font)
+  }
+  
+  // MARK: - Property
+  private let viewModel: NicknameSettingViewModel
   private var isFinishButtonEnable: Bool = false {
     didSet {
       toggleFinishButton()
     }
   }
   
+  // MARK: - Initializer
+  init(viewModel: NicknameSettingViewModel) {
+    self.viewModel = viewModel
+    
+    super.init()
+  }
+  
+  @available(*, unavailable)
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: - Life Cycle
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
@@ -28,54 +74,83 @@ final class NicknameSettingViewController: BaseViewController, Navigatable, View
   }
   
   override func viewDidLayoutSubviews() {
-    DesignSystemManager.configureProfileImageView(profileImageView)
-    DesignSystemManager.configureSelectedImageView(profileImageView)
-  }
-  
-  @MainActor
-  override func configure() {
-    self.finishableKeyboardEditing = true
+    let underline = CALayer().configured { layer in
+      layer.backgroundColor = UIColor.raText.cgColor
+      layer.frame = CGRect(
+        x: 0,
+        y: nicknameField.frame.size.height,
+        width: nicknameField.frame.size.width,
+        height: 2
+      )
+    }
     
-    DesignSystemManager.configureNicknameFeild(nicknameField)
-    DesignSystemManager.configureHintLabel(hintLabel)
-    DesignSystemManager.configurePrimaryButton(finishButton)
+    nicknameField.layer.addSublayer(underline)
+  }
+
+  override func setHierarchy() {
+    view.addSubviews(
+      profileImageView,
+      nicknameField,
+      hintLabel,
+      finishButton
+    )
   }
   
   override func setAttribute() {
-    profileImageView.image = User.default.profile.image
+    self.finishableKeyboardEditing = true
+    
+    profileImageView.isUserInteractionEnabled = true
     profileImageView.addGestureRecognizer(
       UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
     )
     
-    nicknameField.placeholder = "닉네임을 입력해주세요 :)"
-    nicknameField.text = User.default.nickname
     nicknameField.addTarget(self, action: #selector(textfieldDidChanged), for: .editingChanged)
-    
-    finishButton.setTitle("완료", for: .normal)
     finishButton.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
     
     toggleFinishButton()
     textfieldDidChanged(nicknameField)
   }
   
-  func setViewModel(_ viewModel: NicknameSettingViewModel) {
-    self.viewModel = viewModel
+  override func setConstraint() {
+    profileImageView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
+      $0.centerX.equalToSuperview()
+      $0.size.equalTo(100)
+    }
+    
+    nicknameField.snp.makeConstraints {
+      $0.top.equalTo(profileImageView.snp.bottom).offset(32)
+      $0.horizontalEdges.equalToSuperview().inset(16)
+      $0.height.equalTo(40)
+    }
+    
+    hintLabel.snp.makeConstraints {
+      $0.top.equalTo(nicknameField.snp.bottom).offset(12)
+      $0.horizontalEdges.equalToSuperview().inset(24)
+      $0.height.equalTo(21)
+    }
+    
+    finishButton.snp.makeConstraints {
+      $0.top.equalTo(hintLabel.snp.bottom).offset(24)
+      $0.horizontalEdges.equalToSuperview().inset(16)
+    }
   }
   
+  // MARK: - Method
   func setNavigationTitle(with title: String) {
     self.navigationItem.title = title
     self.navigationItem.backButtonTitle = ""
   }
   
   @objc private func profileImageTapped() {
-    viewModel?.showProfileImageSttingViewController()
+    viewModel.showProfileImageSttingViewController()
   }
   
   @objc private func finishButtonTapped(_ sender: UIButton) {
     applyNickname()
     
     if User.default.onboarded {
-      viewModel?.coordinator?.pop()
+      viewModel.coordinator?.pop()
     } else {
       onboardingCompleted()
     }
@@ -88,7 +163,7 @@ final class NicknameSettingViewController: BaseViewController, Navigatable, View
   private func onboardingCompleted() {
     User.default.onboarded = true
     
-    viewModel?.connectMainTabBarFlow()
+    viewModel.connectMainTabBarFlow()
   }
   
   private func updateProfile() {
@@ -99,9 +174,9 @@ final class NicknameSettingViewController: BaseViewController, Navigatable, View
 // MARK: - 닉네임 유효성
 extension NicknameSettingViewController {
   @objc private func textfieldDidChanged(_ sender: UITextField) {
-    let validation = viewModel?.validateNickname(sender.text!)
+    let validation = viewModel.validateNickname(sender.text!)
     
-    updateHintText(validation?.hintText)
+    updateHintText(validation.hintText)
     changeHintColor(isValid: validation == .satisfied)
     changeFinishButtonEnabled(isValid: validation == .satisfied)
   }
@@ -122,4 +197,13 @@ extension NicknameSettingViewController {
     finishButton.isEnabled = isFinishButtonEnable
     finishButton.backgroundColor = isFinishButtonEnable ? .accent : .gray
   }
+}
+
+@available(iOS 17, *)
+#Preview {
+  NicknameSettingViewController(
+    viewModel: NicknameSettingViewModel(
+      coordinator: AuthCoordinator(UINavigationController())
+    )
+  )
 }
