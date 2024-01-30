@@ -15,18 +15,15 @@ final class NicknameSettingViewController: CodeBaseViewController, Navigatable {
     $0.image = User.default.profile.image
   }
   
-  private let nicknameField = UITextField().configured { field in
-    
-    
-    
-    field.placeholder = "닉네임을 입력해주세요 :)"
-    field.text = User.default.nickname
-    field.borderStyle = .none
-    field.textColor = .raText
-    field.backgroundColor = .clear
-    field.autocorrectionType = .no
-    field.autocapitalizationType = .none
-    field.spellCheckingType = .no
+  private let nicknameField = UITextField().configured {
+    $0.placeholder = "닉네임을 입력해주세요 :)"
+    $0.text = User.default.nickname
+    $0.borderStyle = .none
+    $0.textColor = .raText
+    $0.backgroundColor = .clear
+    $0.autocorrectionType = .no
+    $0.autocapitalizationType = .none
+    $0.spellCheckingType = .no
   }
   
   private let hintLabel = UILabel().configured {
@@ -36,15 +33,7 @@ final class NicknameSettingViewController: CodeBaseViewController, Navigatable {
     $0.numberOfLines = 2
   }
   
-  private lazy var finishButton = UIButton().configured { button in
-    button.configuration = .filled().configured {
-      $0.baseForegroundColor = .raText
-      $0.baseBackgroundColor = .accent
-      $0.buttonSize = .large
-      $0.cornerStyle = .medium
-    }
-    .titleAttributed(with: "완료", font: RADesign.Font.primaryTitle.font)
-  }
+  private let finishButton = PrimaryButton(text: "완료", font: RADesign.Font.primaryTitle.font)
   
   // MARK: - Property
   private let viewModel: NicknameSettingViewModel

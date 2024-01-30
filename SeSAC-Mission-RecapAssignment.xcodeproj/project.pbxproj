@@ -92,6 +92,7 @@
 		6E2E97F12B652A550026738B /* CodeBaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2E97F02B652A550026738B /* CodeBaseCollectionViewCell.swift */; };
 		6E2E97F32B654EEB0026738B /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2E97F22B654EEB0026738B /* UICollectionView+.swift */; };
 		6E5D0E262B67A06A00FCB6A7 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D0E252B67A06A00FCB6A7 /* ProfileImageView.swift */; };
+		6E5D0E282B68762000FCB6A7 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D0E272B68762000FCB6A7 /* PrimaryButton.swift */; };
 		6E9F59A82B5FA77600A3869F /* UserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9F59A72B5FA77600A3869F /* UserNotificationManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -179,6 +180,7 @@
 		6E2E97F02B652A550026738B /* CodeBaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		6E2E97F22B654EEB0026738B /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		6E5D0E252B67A06A00FCB6A7 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
+		6E5D0E272B68762000FCB6A7 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		6E9F59A72B5FA77600A3869F /* UserNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -636,6 +638,7 @@
 			isa = PBXGroup;
 			children = (
 				6E5D0E252B67A06A00FCB6A7 /* ProfileImageView.swift */,
+				6E5D0E272B68762000FCB6A7 /* PrimaryButton.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -742,6 +745,7 @@
 				6E25C1FB2B5C2A3300FCC927 /* ProfileImageSettingViewModel.swift in Sources */,
 				6E0368882B5D6496000C64D2 /* SearchTableViewCell.swift in Sources */,
 				6E25C2162B5D049200FCC927 /* SettingViewModel.swift in Sources */,
+				6E5D0E282B68762000FCB6A7 /* PrimaryButton.swift in Sources */,
 				6E2E97F32B654EEB0026738B /* UICollectionView+.swift in Sources */,
 				6E0368A72B5E3692000C64D2 /* SettingTableViewCell.swift in Sources */,
 				6E25C1C42B5A36B100FCC927 /* BaseTableViewCell.swift in Sources */,
