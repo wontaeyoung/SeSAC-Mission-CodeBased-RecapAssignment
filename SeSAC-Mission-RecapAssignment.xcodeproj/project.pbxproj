@@ -91,6 +91,7 @@
 		6E2E97F12B652A550026738B /* CodeBaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2E97F02B652A550026738B /* CodeBaseCollectionViewCell.swift */; };
 		6E2E97F32B654EEB0026738B /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2E97F22B654EEB0026738B /* UICollectionView+.swift */; };
 		6E5A398B2B8BA3FA00E56AC1 /* Playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5A398A2B8BA3FA00E56AC1 /* Playground.swift */; };
+		6E5A39962B8C591200E56AC1 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5A39952B8C591200E56AC1 /* Observable.swift */; };
 		6E5D0E262B67A06A00FCB6A7 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D0E252B67A06A00FCB6A7 /* ProfileImageView.swift */; };
 		6E5D0E282B68762000FCB6A7 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D0E272B68762000FCB6A7 /* PrimaryButton.swift */; };
 		6E9F59A82B5FA77600A3869F /* UserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9F59A72B5FA77600A3869F /* UserNotificationManager.swift */; };
@@ -179,6 +180,7 @@
 		6E2E97F02B652A550026738B /* CodeBaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		6E2E97F22B654EEB0026738B /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		6E5A398A2B8BA3FA00E56AC1 /* Playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
+		6E5A39952B8C591200E56AC1 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		6E5D0E252B67A06A00FCB6A7 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		6E5D0E272B68762000FCB6A7 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		6E9F59A72B5FA77600A3869F /* UserNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationManager.swift; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 				6E25C1A42B594BE500FCC927 /* Configurator+.swift */,
 				6E25C1D82B5A546400FCC927 /* String+.swift */,
 				6E0368952B5DFC67000C64D2 /* Int+.swift */,
+				6E5A39952B8C591200E56AC1 /* Observable.swift */,
 				6E5A398A2B8BA3FA00E56AC1 /* Playground.swift */,
 			);
 			path = Extension;
@@ -742,6 +745,7 @@
 				6E25C2082B5CB67800FCC927 /* MainTabBarController.swift in Sources */,
 				6E0A851A2B64E5F5009F05F6 /* APIKey.swift in Sources */,
 				6E25C1952B59314600FCC927 /* APIRequest.swift in Sources */,
+				6E5A39962B8C591200E56AC1 /* Observable.swift in Sources */,
 				6E25C1FB2B5C2A3300FCC927 /* ProfileImageSettingViewModel.swift in Sources */,
 				6E0368882B5D6496000C64D2 /* SearchTableViewCell.swift in Sources */,
 				6E25C2162B5D049200FCC927 /* SettingViewModel.swift in Sources */,

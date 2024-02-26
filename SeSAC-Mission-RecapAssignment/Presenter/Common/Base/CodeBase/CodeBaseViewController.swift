@@ -11,9 +11,10 @@ class CodeBaseViewController: UIViewController {
   
   var finishableKeyboardEditing: Bool
   
-  @MainActor func setHierarchy() { }
-  @MainActor func setAttribute() { }
-  @MainActor func setConstraint() { }
+  func setHierarchy() { }
+  func setAttribute() { }
+  func setConstraint() { }
+  func bind() { }
   
   init(finishableKeyboardEditing: Bool = false) {
     self.finishableKeyboardEditing = finishableKeyboardEditing
@@ -35,6 +36,8 @@ class CodeBaseViewController: UIViewController {
     setHierarchy()
     setAttribute()
     setConstraint()
+    bind()
+    
     if finishableKeyboardEditing { makeViewFinishableEditing() }
   }
 }

@@ -61,22 +61,24 @@ final class ProfileImageSettingViewController: CodeBaseViewController, Navigatab
     }
   }
   
+  override func bind() {
+    viewModel.currentProfile.bind { [weak self] in
+      guard let self else { return }
+      
+      currentProfileImageView.image = $0.image
+      profileImageCollectionView.reloadData()
+    }
+  }
   
   // MARK: - Method
   func setNavigationTitle(with title: String) {
     self.navigationItem.title = title
   }
-  
-  private func updateProfileImage(with profile: User.Profile) {
-    User.default.profile = profile
-    currentProfileImageView.image = User.default.profile.image
-    profileImageCollectionView.reloadData()
-  }
 }
 
 extension ProfileImageSettingViewController: CollectionConfigurable {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return User.Profile.allCases.count
+    return viewModel.collectionCount
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -85,11 +87,11 @@ extension ProfileImageSettingViewController: CollectionConfigurable {
       withReuseIdentifier: ProfileImageCollectionViewCell.identifier,
       for: indexPath
     ) as! ProfileImageCollectionViewCell
-    let profile: User.Profile = .allCases[indexPath.row]
+    let profile = viewModel.profile(at: indexPath)
     
     cell.profileImageView.image = profile.image
     
-    if User.default.profile == profile {
+    if viewModel.isCurrentProfile(at: indexPath) {
       cell.profileImageView.toggleSelected()
     }
     
@@ -97,15 +99,8 @@ extension ProfileImageSettingViewController: CollectionConfigurable {
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    updateProfileImage(with: .allCases[indexPath.row])
+    viewModel.updateProfileImage(at: indexPath)
   }
   
   func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) { }
-}
-
-@available(iOS 17, *)
-#Preview {
-  ProfileImageSettingViewController(
-    viewModel: .init(coordinator: .init(.init()))
-  )
 }
