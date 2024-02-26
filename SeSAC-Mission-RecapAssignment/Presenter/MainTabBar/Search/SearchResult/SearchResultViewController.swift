@@ -61,33 +61,34 @@ final class SearchResultViewController: CodeBaseViewController, Navigatable {
   
   // MARK: - Property
   private let viewModel: SearchResultViewModel
-  private var searchKeyword: String
   
-  private var products: [Product] {
-    didSet {
+  override func bind() {
+    viewModel.products.bind { [weak self] _ in
+      guard let self else { return }
+      
       stopLoading()
       productCollectionView.reloadData()
     }
-  }
-  
-  private var currentSortType: NaverAPIEndpoint.Sort = .sim {
-    didSet {
-      guard oldValue != currentSortType else { return }
+    
+    viewModel.currentSortType.bind { [weak self] _ in
+      guard let self else { return }
       
       configureSortButtons()
-      viewModel.apiContainer.resetPage()
-      resetProducts()
-      callRequest()
       startLoading()
+    }
+    
+    viewModel.totalResultCount.bind { [weak self] count in
+      guard let self else { return }
+      guard let count else { return }
+      
+      resultCountLabel.text = "\(count.formatted) 개의 검색 결과"
     }
   }
   
   
   // MARK: - Initializer
-  init(viewModel: SearchResultViewModel, searchKeyword: String) {
+  init(viewModel: SearchResultViewModel) {
     self.viewModel = viewModel
-    self.searchKeyword = searchKeyword
-    self.products = []
     
     super.init()
   }
@@ -110,7 +111,7 @@ final class SearchResultViewController: CodeBaseViewController, Navigatable {
   }
   
   override func setAttribute() {
-    navigationItem.title = searchKeyword
+    navigationItem.title = viewModel.searchKeyword
     navigationItem.backButtonTitle = ""
     
     sortButtons.forEach {
@@ -118,7 +119,6 @@ final class SearchResultViewController: CodeBaseViewController, Navigatable {
     }
     
     configureSortButtons()
-    callRequest()
   }
   
   override func setConstraint() {
@@ -143,7 +143,7 @@ final class SearchResultViewController: CodeBaseViewController, Navigatable {
   // MARK: - Method
   private func configureSortButtons() {
     sortButtons.forEach { button in
-      let isSelected: Bool = currentSortType.tag == button.tag
+      let isSelected: Bool = viewModel.currentSortType.current.tag == button.tag
       
       button.configuration?.configure {
         $0.baseForegroundColor = isSelected ? .raBackground : .raText
@@ -153,28 +153,14 @@ final class SearchResultViewController: CodeBaseViewController, Navigatable {
   }
   
   @objc private func sortButtonTapped(_ sender: UIButton) {
-    currentSortType = .allCases[sender.tag]
+    viewModel.sortButtonTapEvent.set(sender.tag)
   }
   
   @objc func likeButtonTapped(_ sender: UIButton) {
-    let productID: String = products[sender.tag].productID
-    User.default.toggleLike(productID: productID)
-    productCollectionView.reloadItems(at: [IndexPath(row: sender.tag, section: 0)])
-  }
-  
-  private func resetProducts() {
-    self.products.removeAll()
-  }
-  
-  private func callRequest() {
-    viewModel.callRequest(query: searchKeyword, sort: currentSortType) { (count, products) in
-      DispatchQueue.main.async { [weak self] in
-        guard let self else { return }
-        
-        resultCountLabel.text = "\(count.formatted) 개의 검색 결과"
-        self.products.append(contentsOf: products)
-      }
-    }
+    viewModel.likeButtonTapEvent.set(sender.tag)
+
+    let reloadAt = [IndexPath(row: sender.tag, section: 0)]
+    productCollectionView.reloadItems(at: reloadAt)
   }
 }
 
@@ -192,7 +178,7 @@ extension SearchResultViewController {
 // MARK: - Collection View Delegate
 extension SearchResultViewController: CollectionConfigurable {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return products.count
+    return viewModel.numberOfItems
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -200,35 +186,19 @@ extension SearchResultViewController: CollectionConfigurable {
       withReuseIdentifier: ProductCollectionViewCell.identifier,
       for: indexPath
     ) as! ProductCollectionViewCell
+    let product = viewModel.productAt(indexPath)
     
-    let row: Int = indexPath.row
-    let product: Product = products[row]
-    
-    cell.setData(product: product, tag: row)
+    cell.setData(product: product, tag: indexPath.row)
     cell.likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
     
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let product: Product = products[indexPath.row]
-    
-    viewModel.showProductDetailViewController(product: product)
+    viewModel.productCellTapEvent.set(indexPath)
   }
   
   func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) { 
-    guard !viewModel.apiContainer.isEnd else { return }
-    
-    indexPaths
-      .forEach { path in
-        if path.row + 1 == products.count {
-          callRequest()
-        }
-      }
+    viewModel.prefetchItemsEvent.set(indexPaths)
   }
-}
-
-@available(iOS 17, *)
-#Preview {
-  SearchResultViewController(viewModel: SearchResultViewModel(coordinator: SearchCoordinator(UINavigationController())), searchKeyword: "바둑")
 }
