@@ -60,12 +60,7 @@ final class SearchViewController: CodeBaseViewController, Navigatable {
   
   // MARK: - Property
   private let viewModel: SearchViewModel
-  private var recentSearches: [String] = User.default.recentSearches {
-    didSet {
-      hideViewBy(isKeywordEmpty: recentSearches.isEmpty)
-      recentSearchTableView.reloadData()
-    }
-  }
+  
   
   // MARK: - Initializer
   init(viewModel: SearchViewModel) {
@@ -89,7 +84,7 @@ final class SearchViewController: CodeBaseViewController, Navigatable {
     navigationItem.backButtonTitle = ""
     
     deleteAllButton.addTarget(self, action: #selector(deleteAllButtonTapped), for: .touchUpInside)
-    hideViewBy(isKeywordEmpty: User.default.recentSearches.isEmpty)
+    hideViewBy()
   }
   
   override func setConstraint() {
@@ -127,43 +122,39 @@ final class SearchViewController: CodeBaseViewController, Navigatable {
     }
   }
   
-  private func hideViewBy(isKeywordEmpty: Bool) {
-    searchKeywordView.forEach { $0.isHidden = isKeywordEmpty }
-    emptyView.forEach { $0.isHidden = !isKeywordEmpty }
-    
-    self.finishableKeyboardEditing = isKeywordEmpty
+  override func bind() {
+    viewModel.recentSearches.bind { [weak self] _ in
+      guard let self else { return }
+      print("HERE")
+      hideViewBy()
+      recentSearchTableView.reloadData()
+    }
   }
   
-  private func bindRecentSearches() {
-    self.recentSearches = User.default.recentSearches
+  private func hideViewBy() {
+    searchKeywordView.forEach { $0.isHidden = viewModel.isKeywordsEmpty }
+    emptyView.forEach { $0.isHidden = !viewModel.isKeywordsEmpty }
   }
   
   @objc private func deleteAllButtonTapped() {
-    viewModel.showDeleteAllAlert { [weak self] in
-      guard let self else { return }
-      
-      User.default.recentSearches.removeAll()
-      bindRecentSearches()
-    }
+    viewModel.deleteAllButtonTapEvent.set(())
   }
 }
 
 extension SearchViewController: TableConfigurable {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return recentSearches.count
+    return viewModel.numberOfRows
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
     let row: Int = indexPath.row
-    let keyword: String = recentSearches[row]
+    let keyword: String = viewModel.keywordAt(indexPath)
     
     cell.selectionStyle = .none
     cell.setData(text: keyword, tag: row) { [weak self] in
       guard let self else { return }
-      
-      bindRecentSearches()
-      hideViewBy(isKeywordEmpty: User.default.recentSearches.isEmpty)
+      viewModel.deleteRowButtonTapEvent.set(row)
     }
     
     return cell
@@ -174,13 +165,14 @@ extension SearchViewController: TableConfigurable {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    searchNewKeyword(recentSearches[indexPath.row])
+    viewModel.searchKeywordCellTapEvent.set(indexPath)
   }
 }
 
 extension SearchViewController: UISearchBarDelegate {
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    searchNewKeyword(searchBar.text!)
+    viewModel.searchButtonTapEvent.set(searchBar.text)
+    view.endEditing(true)
   }
   
   func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -189,12 +181,5 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     return true
-  }
-  
-  private func searchNewKeyword(_ keyword: String) {
-    User.default.addNewSearchKeyword(keyword)
-    viewModel.showSearchResultViewController(keyword: keyword)
-    bindRecentSearches()
-    view.endEditing(true)
   }
 }
