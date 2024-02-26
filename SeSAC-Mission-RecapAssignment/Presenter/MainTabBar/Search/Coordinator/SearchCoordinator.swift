@@ -62,8 +62,8 @@ extension SearchCoordinator {
   }
   
   func showSearchResultViewController(keyword: String) {
-    let viewModel = SearchResultViewModel(coordinator: self)
-    let viewController = SearchResultViewController(viewModel: viewModel, searchKeyword: keyword)
+    let viewModel = SearchResultViewModel(coordinator: self, searchKeyword: keyword)
+    let viewController = SearchResultViewController(viewModel: viewModel)
     
     self.push(viewController)
   }
