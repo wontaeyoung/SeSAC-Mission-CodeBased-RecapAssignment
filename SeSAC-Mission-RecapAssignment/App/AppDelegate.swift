@@ -28,6 +28,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
       print(#function, "알림 권한 허용 여부 :", isSuccess)
     }
     
+    User.default.onboarded = true
+    
     return true
   }
   
@@ -37,7 +39,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-    
   }
 }
 

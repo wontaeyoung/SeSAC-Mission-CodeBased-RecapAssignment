@@ -42,10 +42,6 @@ final class ProductDetailViewController: CodeBaseViewController, Navigatable {
     super.init()
   }
   
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
   
   // MARK: - Life Cycle
   override func setHierarchy() {

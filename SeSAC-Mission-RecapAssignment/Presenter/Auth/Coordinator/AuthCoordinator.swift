@@ -30,12 +30,8 @@ extension AuthCoordinator {
   
   private func showOnboardingViewController() {
     let viewModel = OnboardingViewModel(coordinator: self)
-    let viewController = makeViewController(
-      storyboard: .Onboarding,
-      viewController: OnboardingViewController.self
-    ) as! OnboardingViewController
+    let viewController = OnboardingViewController(viewModel: viewModel)
     
-    viewController.setViewModel(viewModel)
     self.push(viewController, animation: false)
   }
   

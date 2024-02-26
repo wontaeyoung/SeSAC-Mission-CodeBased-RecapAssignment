@@ -48,4 +48,3 @@ extension UIButton.Configuration {
     }
   }
 }
-
