@@ -125,7 +125,6 @@ final class SearchViewController: CodeBaseViewController, Navigatable {
   override func bind() {
     viewModel.recentSearches.bind { [weak self] _ in
       guard let self else { return }
-      print("HERE")
       hideViewBy()
       recentSearchTableView.reloadData()
     }
