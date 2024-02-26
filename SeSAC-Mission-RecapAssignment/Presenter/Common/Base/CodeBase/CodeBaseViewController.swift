@@ -37,8 +37,6 @@ class CodeBaseViewController: UIViewController {
     setAttribute()
     setConstraint()
     bind()
-    
-    if finishableKeyboardEditing { makeViewFinishableEditing() }
   }
 }
 
