@@ -69,13 +69,6 @@ final class SearchTableViewCell: CodeBaseTableViewCell {
   }
   
   @objc private func deleteButtonTapped(_ sender: UIButton) {
-    User.default.recentSearches.remove(at: sender.tag)
     deleteRowAction?()
   }
 }
-
-@available(iOS 17.0, *)
-#Preview {
-  SearchTableViewCell()
-}
-
